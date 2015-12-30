@@ -2,14 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.boggle" >
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <permission
+        android:name="android.permission.BLUETOOTH"
+        android:label="BLUETOOTH" />
+    <permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon1"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,11 +28,50 @@
         </activity>
         <activity
             android:name=".Game"
-            android:label="@string/title_activity_game" >
+            android:label="@string/title_activity_game"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".GamePage"
-            android:label="@string/title_activity_game_page" >
+            android:label="@string/title_activity_game_page"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".scoreBoard"
+            android:label="@string/title_activity_score_board"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".roundScores"
+            android:label="@string/title_activity_round_scores"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".gameEasy"
+            android:label="@string/title_activity_game_easy"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".MultiplayerScore"
+            android:label="@string/title_activity_multiplayer_score"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".CutThroat"
+            android:label="@string/title_activity_cut_throat"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".MultiplayerNormal"
+            android:label="@string/title_activity_multiplayer_normal"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".MultiplayerMenu"
+            android:label="@string/title_activity_multiplayer_menu"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

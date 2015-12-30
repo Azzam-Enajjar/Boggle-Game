@@ -26,7 +26,7 @@ import java.util.Collection;
 import java.util.Random;
 
 
-public class Game extends Activity {
+public class gameEasy extends Activity {
     public ArrayList<String> dic = new ArrayList<String>();
     public  ArrayList<String> wordlist = new ArrayList<String>();
     public  static ArrayList<String> solution = new ArrayList<String>();
@@ -40,30 +40,30 @@ public class Game extends Activity {
     public boolean isFirstWordPressed ;
     public StringBuilder dictionaryEntry = new StringBuilder();
 
-
     // The following are used for the shake detection
     private ShakeDetector mShakeDetector;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+
 
     // public CharSequence[] acceptedStrings;
     private CountDownTimer countDownTimer;
     public TextView textView;
     public StringBuilder buf = new StringBuilder();
     public String[] dictWords;
-    public ArrayList<String> dictionary = new ArrayList<String>();
     public boolean[] isPressed = {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
     public StringBuilder displayListBld = new StringBuilder();
-    private final long startTime = 60 * 1000;
+    private final long startTime = 30 * 1000;
     private final long interval = 1 * 1000;
     public int acceptStringsCounter =0;
     public static StringBuilder solutions = new StringBuilder();
-    public int shaked =0;
+    public int shaked = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-
+        setContentView(R.layout.activity_game_easy);
+///music
         if(MainActivity.keepMusicGoing) {
             if(!MainActivity.mediaPlayer.isPlaying()){
                 MainActivity.mediaPlayer.reset();
@@ -71,17 +71,15 @@ public class Game extends Activity {
             }
         }
 
+
         wordlist = new ArrayList<String>();
         solution = new ArrayList<String>();
+        solutions = new StringBuilder();
         answer = new ArrayList<String>();
         currentAnswer = "";
-        solutions = new StringBuilder();
         MainActivity.roundNumber++;
-
-
         final TextView Shake = (TextView) findViewById(R.id.textViewShake);
-        //final TextView text = (TextView)findViewById(R.id.test);
-        final Button boggle = (Button) findViewById(R.id.Boggle);
+
         final Button Solver = (Button) findViewById(R.id.SolveButton);
         final TextView Display = (TextView) findViewById(R.id.Entry);
         Display.setMovementMethod(new ScrollingMovementMethod());
@@ -95,18 +93,8 @@ public class Game extends Activity {
         final Button b7 = (Button) findViewById(R.id.button7);
         final Button b8 = (Button) findViewById(R.id.button8);
         final Button b9 = (Button) findViewById(R.id.button9);
-        final Button b10 = (Button) findViewById(R.id.button10);
-        final Button b11 = (Button) findViewById(R.id.button11);
-        final Button b12 = (Button) findViewById(R.id.button12);
-        final Button b13 = (Button) findViewById(R.id.button13);
-        final Button b14 = (Button) findViewById(R.id.button14);
-        final Button b15 = (Button) findViewById(R.id.button15);
-        final Button b16 = (Button) findViewById(R.id.button16);
-        //final TextView disp = (TextView)findViewById(R.id.DisplaySolutions);
-//        boggle.setVisibility(View.INVISIBOLE);
-
+  //      boggle.setVisibility(View.INVISIBLE);
         Submit.setVisibility(View.INVISIBLE);
-
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -114,15 +102,15 @@ public class Game extends Activity {
             @Override
             public void onShake() {
                 if (shaked == 0) {
-                    // boggle.setVisibility(View.VISIBLE);
-                    // Toast.makeText(getApplicationContext(), "Its Shaking!", Toast.LENGTH_SHORT).show();
                     shaked = 1;
+                    // boggle.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(), "Its Shaking!", Toast.LENGTH_SHORT).show();
                     Shake.setVisibility(View.INVISIBLE);
                     textView = (TextView) findViewById(R.id.textView);
                     countDownTimer = new CountDownTimerActivity(startTime, interval);
                     textView.setText(textView.getText() + String.valueOf(startTime / 1000));
 
-                  //  boggle.setVisibility(View.INVISIBLE);
+                 //   boggle.setVisibility(View.INVISIBLE);
                     Submit.setVisibility(View.VISIBLE);
                     Display.setVisibility(View.VISIBLE);
                     textView.setVisibility(View.VISIBLE);
@@ -137,7 +125,6 @@ public class Game extends Activity {
                             while ((str = reader.readLine()) != null) {
                                 buf.append(str.toUpperCase() + " ");
                                 dic.add(str.toUpperCase());
-
                             }
                         } catch (IOException e) {
 
@@ -155,6 +142,7 @@ public class Game extends Activity {
                     isFirstWordPressed = false;
                     prevx = 0;
                     prevy = 0;
+
                     b1.setBackgroundResource(R.drawable.buttonnoselectborder);
                     b2.setBackgroundResource(R.drawable.buttonnoselectborder);
                     b3.setBackgroundResource(R.drawable.buttonnoselectborder);
@@ -164,14 +152,6 @@ public class Game extends Activity {
                     b7.setBackgroundResource(R.drawable.buttonnoselectborder);
                     b8.setBackgroundResource(R.drawable.buttonnoselectborder);
                     b9.setBackgroundResource(R.drawable.buttonnoselectborder);
-                    b10.setBackgroundResource(R.drawable.buttonnoselectborder);
-                    b11.setBackgroundResource(R.drawable.buttonnoselectborder);
-                    b12.setBackgroundResource(R.drawable.buttonnoselectborder);
-                    b13.setBackgroundResource(R.drawable.buttonnoselectborder);
-                    b14.setBackgroundResource(R.drawable.buttonnoselectborder);
-                    b15.setBackgroundResource(R.drawable.buttonnoselectborder);
-                    b16.setBackgroundResource(R.drawable.buttonnoselectborder);
-
 
                     b1.setText(boggleBoard[0]);
                     b2.setText(boggleBoard[1]);
@@ -182,25 +162,16 @@ public class Game extends Activity {
                     b7.setText(boggleBoard[6]);
                     b8.setText(boggleBoard[7]);
                     b9.setText(boggleBoard[8]);
-                    b10.setText(boggleBoard[9]);
-                    b11.setText(boggleBoard[10]);
-                    b12.setText(boggleBoard[11]);
-                    b13.setText(boggleBoard[13]);
-                    b14.setText(boggleBoard[14]);
-                    b15.setText(boggleBoard[15]);
-                    b16.setText(boggleBoard[16]);
                     BuildAnswer.setLength(0);
 
-                    for (int i = 0; i < 16; i++) {
+                    for (int i = 0; i < 9; i++) {
                         isPressed[i] = false;
                     }
 
                     new solveBoard().execute();
-
                 }
             }
         });
-
 
 
         Submit.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +184,6 @@ public class Game extends Activity {
                 prevy = 0;
                 isFirstWordPressed = false;
 
-
                 b1.setBackgroundResource(R.drawable.buttonnoselectborder);
                 b2.setBackgroundResource(R.drawable.buttonnoselectborder);
                 b3.setBackgroundResource(R.drawable.buttonnoselectborder);
@@ -223,14 +193,6 @@ public class Game extends Activity {
                 b7.setBackgroundResource(R.drawable.buttonnoselectborder);
                 b8.setBackgroundResource(R.drawable.buttonnoselectborder);
                 b9.setBackgroundResource(R.drawable.buttonnoselectborder);
-                b10.setBackgroundResource(R.drawable.buttonnoselectborder);
-                b11.setBackgroundResource(R.drawable.buttonnoselectborder);
-                b12.setBackgroundResource(R.drawable.buttonnoselectborder);
-                b13.setBackgroundResource(R.drawable.buttonnoselectborder);
-                b14.setBackgroundResource(R.drawable.buttonnoselectborder);
-                b15.setBackgroundResource(R.drawable.buttonnoselectborder);
-                b16.setBackgroundResource(R.drawable.buttonnoselectborder);
-
 
                 if (BuildAnswer.length() > 2) {
                     dictionaryEntry.append(BuildAnswer);
@@ -262,16 +224,6 @@ public class Game extends Activity {
                 for (int i =0; i<16; i++){
                     isPressed[i]=false;
                 }
-
-                  /*  if(currentAnswer.length()>= 3) {
-                    answer.add(currentAnswer);
-                    currentAnswer = "";
-                }
-                else{
-                    currentAnswer = "";
-                    Toast.makeText(getApplicationContext(), "Words needs to be 3-letter long min.", Toast.LENGTH_SHORT).show();
-                }*/
-
             }
         });
 
@@ -290,7 +242,6 @@ public class Game extends Activity {
                         prevy = 0;
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer.toString());
-                       // b1.setBackgroundColor(Color.WHITE);
                         b1.setBackgroundResource(R.drawable.buttonselect);
                         isFirstWordPressed = true;
                         isPressed[0]=true;
@@ -316,7 +267,6 @@ public class Game extends Activity {
                     boolean dictReturn;
                     String str = b2.getText().toString();
 
-
                     if (isFirstWordPressed) {
                         adjacent = AdjacentorNot(0, 1, prevx, prevy);
                     }
@@ -326,7 +276,6 @@ public class Game extends Activity {
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer.toString());
 
-                        //b2.setBackgroundColor(Color.WHITE);
                         b2.setBackgroundResource(R.drawable.buttonselect);
                         currentAnswer += b1.getText().toString();
                         isFirstWordPressed = true;
@@ -356,7 +305,6 @@ public class Game extends Activity {
                     if (adjacent) {
                         prevx = 0;
                         prevy = 2;
-                        //b3.setBackgroundColor(Color.WHITE);
                         b3.setBackgroundResource(R.drawable.buttonselect);
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer);
@@ -383,12 +331,11 @@ public class Game extends Activity {
                     String str = b4.getText().toString();
 
                     if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(0, 3, prevx, prevy);
+                        adjacent = AdjacentorNot(1, 0, prevx, prevy);
                     }
                     if (adjacent) {
-                        prevx = 0;
-                        prevy = 3;
-                        //b4.setBackgroundColor(Color.WHITE);
+                        prevx = 1;
+                        prevy = 0;
                         b4.setBackgroundResource(R.drawable.buttonselect);
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer);
@@ -415,12 +362,11 @@ public class Game extends Activity {
                     String str = b5.getText().toString();
 
                     if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(1, 0, prevx, prevy);
+                        adjacent = AdjacentorNot(1, 1, prevx, prevy);
                     }
                     if (adjacent) {
                         prevx = 1;
-                        prevy = 0;
-                        //b5.setBackgroundColor(Color.WHITE);
+                        prevy = 1;
                         b5.setBackgroundResource(R.drawable.buttonselect);
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer);
@@ -447,12 +393,11 @@ public class Game extends Activity {
                     String str = b6.getText().toString();
 
                     if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(1, 1, prevx, prevy);
+                        adjacent = AdjacentorNot(1, 2, prevx, prevy);
                     }
                     if (adjacent) {
                         prevx = 1;
-                        prevy = 1;
-                        //b6.setBackgroundColor(Color.WHITE);
+                        prevy = 2;
                         b6.setBackgroundResource(R.drawable.buttonselect);
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer);
@@ -478,12 +423,11 @@ public class Game extends Activity {
                     String str = b7.getText().toString();
 
                     if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(1, 2, prevx, prevy);
+                        adjacent = AdjacentorNot(2, 0, prevx, prevy);
                     }
                     if (adjacent) {
-                        prevx = 1;
-                        prevy = 2;
-                       // b7.setBackgroundColor(Color.WHITE);
+                        prevx = 2;
+                        prevy = 0;
                         b7.setBackgroundResource(R.drawable.buttonselect);
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer);
@@ -509,12 +453,11 @@ public class Game extends Activity {
                     String str = b8.getText().toString();
 
                     if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(1, 3, prevx, prevy);
+                        adjacent = AdjacentorNot(2, 1, prevx, prevy);
                     }
                     if (adjacent) {
-                        prevx = 1;
-                        prevy = 3;
-                        //b8.setBackgroundColor(Color.WHITE);
+                        prevx = 2;
+                        prevy = 1;
                         b8.setBackgroundResource(R.drawable.buttonselect);
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer);
@@ -540,12 +483,11 @@ public class Game extends Activity {
                     String str = b9.getText().toString();
 
                     if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(2, 0, prevx, prevy);
+                        adjacent = AdjacentorNot(2, 2, prevx, prevy);
                     }
                     if (adjacent) {
                         prevx = 2;
-                        prevy = 0;
-                        //b9.setBackgroundColor(Color.WHITE);
+                        prevy = 2;
                         b9.setBackgroundResource(R.drawable.buttonselect);
                         BuildAnswer.append(str);
                         Display.setText(BuildAnswer);
@@ -563,234 +505,13 @@ public class Game extends Activity {
                 }
             }
         });
-        b10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isPressed[9]==false) {
-                    boolean adjacent = true;
-                    boolean dictReturn;
-                    String str = b10.getText().toString();
 
-                    if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(2, 1, prevx, prevy);
-                    }
-                    if (adjacent) {
-                        //b10.setBackgroundColor(Color.WHITE);
-                        b10.setBackgroundResource(R.drawable.buttonselect);
-                        BuildAnswer.append(str);
-                        Display.setText(BuildAnswer);
-                        prevx = 2;
-                        prevy = 1;
-                        currentAnswer += b1.getText().toString();
-                        isFirstWordPressed = true;
-                        isPressed[9] = true;
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "That's not adjacent man!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Can't use the same tile again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        b11.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isPressed[10]==false) {
-                    boolean adjacent = true;
-                    boolean dictReturn;
-                    String str = b11.getText().toString();
 
-                    if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(2, 2, prevx, prevy);
-                    }
-                    if (adjacent) {
-                        //b11.setBackgroundColor(Color.WHITE);
-                        b11.setBackgroundResource(R.drawable.buttonselect);
-                        BuildAnswer.append(str);
-                        Display.setText(BuildAnswer);
-                        prevx = 2;
-                        prevy = 2;
-                        isFirstWordPressed = true;
-                        isPressed[10] = true;
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "That's not adjacent man!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Can't use the same tile again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        b12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isPressed[11]== false) {
-                    boolean adjacent = true;
-                    boolean dictReturn;
-                    String str = b12.getText().toString();
 
-                    if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(2, 3, prevx, prevy);
-                    }
-                    if (adjacent) {
-                        //b12.setBackgroundColor(Color.WHITE);
-                        b12.setBackgroundResource(R.drawable.buttonselect);
-                        BuildAnswer.append(str);
-                        Display.setText(BuildAnswer);
-                        prevx = 2;
-                        prevy = 3;
-                        currentAnswer += b1.getText().toString();
-                        isFirstWordPressed = true;
-                        isPressed[11] = true;
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "That's not adjacent man!", Toast.LENGTH_SHORT).show();
-                    }
 
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Can't use the same tile again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        b13.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isPressed[12]==false) {
-                    boolean adjacent = true;
-                    boolean dictReturn;
-                    String str = b13.getText().toString();
-
-                    if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(3, 0, prevx, prevy);
-                    }
-                    if (adjacent) {
-                        prevx = 3;
-                        prevy = 0;
-                        //b13.setBackgroundColor(Color.WHITE);
-                        b13.setBackgroundResource(R.drawable.buttonselect);
-                        BuildAnswer.append(str);
-                        Display.setText(BuildAnswer);
-                        currentAnswer += b1.getText().toString();
-                        isFirstWordPressed = true;
-                        isPressed[12] = true;
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "That's not adjacent man!", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Can't use the same tile again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        b14.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isPressed[13]==false) {
-                    boolean adjacent = true;
-                    boolean dictReturn;
-                    String str = b14.getText().toString();
-
-                    if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(3, 1, prevx, prevy);
-                    }
-                    if (adjacent) {
-                        prevx = 3;
-                        prevy = 1;
-                       // b14.setBackgroundColor(Color.WHITE);
-                        b14.setBackgroundResource(R.drawable.buttonselect);
-                        BuildAnswer.append(str);
-                        Display.setText(BuildAnswer);
-                        currentAnswer += b1.getText().toString();
-                        isFirstWordPressed = true;
-                        isPressed[13] = true;
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "That's not adjacent man!", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Can't use the same tile again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        b15.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isPressed[14]==false) {
-                    boolean adjacent = true;
-                    boolean dictReturn;
-                    String str = b15.getText().toString();
-
-                    if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(3, 2, prevx, prevy);
-                    }
-                    if (adjacent) {
-                        prevx = 3;
-                        prevy = 2;
-                        //b15.setBackgroundColor(Color.WHITE);
-                        b15.setBackgroundResource(R.drawable.buttonselect);
-                        BuildAnswer.append(str);
-                        Display.setText(BuildAnswer);
-                        currentAnswer += b1.getText().toString();
-                        isFirstWordPressed = true;
-                        isPressed[14] = true;
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "That's not adjacent man!", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Can't use the same tile again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        b16.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isPressed[15]==false) {
-                    boolean adjacent = true;
-                    boolean dictReturn;
-                    String str = b16.getText().toString();
-
-                    if (isFirstWordPressed) {
-                        adjacent = AdjacentorNot(3, 3, prevx, prevy);
-                    }
-                    if (adjacent) {
-                        prevx = 3;
-                        prevy = 3;
-                        //b16.setBackgroundColor(Color.WHITE);
-                        b16.setBackgroundResource(R.drawable.buttonselect);
-                        BuildAnswer.append(str);
-                        Display.setText(BuildAnswer);
-                        currentAnswer += b1.getText().toString();
-                        isFirstWordPressed = true;
-                        isPressed[15] = true;
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "That's not adjacent man!", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Can't use the same tile again", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
-    }
-
-    @Override
-    protected void onPause() {
-        mSensorManager.unregisterListener(mShakeDetector);
-        super.onPause();
-    }
     private boolean checkPresent(){
         boolean isPresent;
         try {
@@ -814,6 +535,17 @@ public class Game extends Activity {
         return false;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
     private boolean isInDictionary() throws IOException {
         int leng = dictWords.length;
         int i = 0, j=0;
@@ -846,7 +578,7 @@ public class Game extends Activity {
 
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    Intent i = new Intent(Game.this, scoreBoard.class);
+                    Intent i = new Intent(gameEasy.this, scoreBoard.class);
                     startActivity(i);
 
                     finish();
@@ -894,22 +626,22 @@ public class Game extends Activity {
             boggleBoard[index] = boggleBoard[i];
             boggleBoard[i] = temp;
         }
+        boggleBoard[4]="E";
     }
 
     private class solveBoard extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             Collection<Vertex> items;
-            String[][] buttonnoselectborder = {{Game.boggleBoard[0], Game.boggleBoard[1], Game.boggleBoard[2], Game.boggleBoard[3],},
-                    {Game.boggleBoard[4], Game.boggleBoard[5], Game.boggleBoard[6], Game.boggleBoard[7],},
-                    {Game.boggleBoard[8], Game.boggleBoard[9], Game.boggleBoard[10], Game.boggleBoard[11],},
-                    {Game.boggleBoard[12], Game.boggleBoard[13], Game.boggleBoard[14], Game.boggleBoard[15],}};
-            ;
-            Vertex[][] boardg = new Vertex[4][4];
-            items = new ArrayList<Vertex>(16);
-            for (int i = 0; i < buttonnoselectborder.length; i++) {
-                for (int j = 0; j < buttonnoselectborder[i].length; j++) {
-                    boardg[i][j] = new Vertex(buttonnoselectborder[i][j]);
+            String[][] grid = {{gameEasy.boggleBoard[0], gameEasy.boggleBoard[1], gameEasy.boggleBoard[2]},
+                    {gameEasy.boggleBoard[3],gameEasy.boggleBoard[4], gameEasy.boggleBoard[5]},
+                    {gameEasy.boggleBoard[6], gameEasy.boggleBoard[7],gameEasy.boggleBoard[8]}};
+
+            Vertex[][] boardg = new Vertex[3][3];
+            items = new ArrayList<Vertex>(9);
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[i].length; j++) {
+                    boardg[i][j] = new Vertex(grid[i][j]);
                     items.add(boardg[i][j]);
                 }
             }
@@ -956,10 +688,10 @@ public class Game extends Activity {
                     }
                 }
             }
+
             for (Vertex vert: items){
                 dfs(vert, "");
             }
-
 
             return null;
         }
@@ -971,6 +703,7 @@ public class Game extends Activity {
             int len = s.length();
             for(int i=0; i<dic.size();++i)
             {
+
                 temp = dic.get(i);
                 if(temp.equals(s))
                 {
@@ -990,6 +723,7 @@ public class Game extends Activity {
         public void dfs(Vertex u, String currentWord){
             String currentLetter = u.visit();
             currentWord= currentWord + currentLetter;
+
 
             String result = inDic(currentWord);
             if(result.equals("0"))
@@ -1015,6 +749,7 @@ public class Game extends Activity {
                 }
             }
             u.visited = false;
+
         }
     }
 
@@ -1022,7 +757,7 @@ public class Game extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_game, menu);
+        getMenuInflater().inflate(R.menu.menu_game_easy, menu);
         return true;
     }
 
@@ -1041,14 +776,3 @@ public class Game extends Activity {
         return super.onOptionsItemSelected(item);
     }
 }
-
-
- /*Solver.setOnClickListener(new View.OnClickListener(){
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getApplicationContext(),"Solving!",Toast.LENGTH_SHORT).show();
-            Intent solve = new Intent(Game.this,playgame.class);
-            startActivity(solve);
-        }
-    });*/
